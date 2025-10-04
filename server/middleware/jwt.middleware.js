@@ -1,12 +1,28 @@
 const jwt = require("jsonwebtoken");
 
 function authRequired(req, res, next) {
-  const auth = req.headers.authorization?.trim();
   let token = null;
 
-  if (auth && auth.toLowerCase().startsWith("bearer ")) {
-    token = auth.slice(7).trim();
-  } else {
+  const authHeader = req.headers.authorization?.trim();
+  if (authHeader) {
+    token = authHeader.toLowerCase().startsWith("bearer ")
+      ? authHeader.slice(7).trim()
+      : authHeader;
+  }
+
+  if (!token && req.headers["x-auth-token"]) {
+    token = String(req.headers["x-auth-token"]).trim();
+  }
+
+  if (!token && req.query?.token) {
+    token = String(req.query.token).trim();
+  }
+
+  if (!token && req.query?.authToken) {
+    token = String(req.query.authToken).trim();
+  }
+
+  if (!token) {
     token = req.cookies?.token || null;
   }
 
