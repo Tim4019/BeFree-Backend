@@ -7,5 +7,6 @@ router.use(authRequired);
 router.get("/me", users.getMe);
 router.patch("/me", users.updateMe);
 router.patch("/me/password", users.changePassword);
+router.delete("/me", users.deleteMe);
 
 module.exports = router;

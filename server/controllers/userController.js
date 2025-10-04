@@ -107,3 +107,17 @@ exports.changePassword = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.deleteMe = async (req, res, next) => {
+  try {
+    const user = await User.findByIdAndDelete(req.user.id);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    res.json({ message: "Account deleted successfully" });
+  } catch (error) {
+    next(error);
+  }
+};

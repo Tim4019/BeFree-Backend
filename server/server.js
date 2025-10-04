@@ -20,7 +20,7 @@ loadEnv(".env");
 // Environment-specific overrides
 const envResult = loadEnv(`.env.${env}`, true);
 
-// Fallback to development settings when no override exists (common for local npm start)
+// Fallback to development settings when no override exists 
 if (envResult.error && env !== "development") {
   const devEnvPath = path.resolve(__dirname, ".env.development");
   if (fs.existsSync(devEnvPath)) {
